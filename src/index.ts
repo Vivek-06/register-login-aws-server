@@ -9,7 +9,8 @@ import csrf from 'csurf';
 import rateLimit from 'express-rate-limit';
 import DBService from './services/DBService';
 import Config from './config/Config';
-import formatResponse from '../middleware/FormatResponse';
+import formatResponse from './middleware/FormatResponse';
+import { AppRoutes } from './routes/AppRoutes';
 const xss = require('xss-clean');
 
 const app: Application = express();
@@ -45,6 +46,7 @@ let limiter = {
 };
 const requestLimit = rateLimit(limiter);
 app.use(requestLimit);
+app.use(AppRoutes);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   /** Log the req */
